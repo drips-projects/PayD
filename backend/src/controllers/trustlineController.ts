@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
-import { TrustlineService } from '../services/trustlineService';
+import { TrustlineService } from '../services/trustlineService.js';
 
 const checkTrustlineSchema = z.object({
   assetIssuer: z.string().length(56),

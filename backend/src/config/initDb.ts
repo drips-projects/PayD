@@ -1,4 +1,4 @@
-import pool from './database';
+import pool from './database.js';
 
 const schema = `
 CREATE TABLE IF NOT EXISTS users (

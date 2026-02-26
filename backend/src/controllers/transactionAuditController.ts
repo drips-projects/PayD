@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
-import { TransactionAuditService } from '../services/transactionAuditService';
+import { TransactionAuditService } from '../services/transactionAuditService.js';
 
 const listQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),

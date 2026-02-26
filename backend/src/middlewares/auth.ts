@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { config } from '../config/env';
-import { JWTPayload } from '../types/auth';
+import { config } from '../config/env.js';
+import { JWTPayload } from '../types/auth.js';
 
 /**
  * Middleware to authenticate requests using JWT

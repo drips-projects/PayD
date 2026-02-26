@@ -1,8 +1,8 @@
 import { Request, Response, Router } from 'express';
-import { payrollQueryService } from '../services/payroll-query.service';
-import logger from '../utils/logger';
-import { authenticateJWT } from '../middlewares/auth';
-import { authorizeRoles, isolateOrganization } from '../middlewares/rbac';
+import { payrollQueryService } from '../services/payroll-query.service.js';
+import logger from '../utils/logger.js';
+import { authenticateJWT } from '../middlewares/auth.js';
+import { authorizeRoles, isolateOrganization } from '../middlewares/rbac.js';
 
 const router = Router();
 

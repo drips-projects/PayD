@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { employeeService } from '../services/employeeService';
+import { employeeService } from '../services/employeeService.js';
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
   employeeQuerySchema,
-} from '../schemas/employeeSchema';
+} from '../schemas/employeeSchema.js';
 import { z } from 'zod';
 
 export class EmployeeController {

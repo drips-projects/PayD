@@ -4,8 +4,8 @@ import {
   AuditLogFilter,
   PayrollAuditAction,
   ActorType,
-} from '../services/payrollAuditService';
-import logger from '../utils/logger';
+} from '../services/payrollAuditService.js';
+import logger from '../utils/logger.js';
 
 export class PayrollAuditController {
   static async getAuditLogs(req: Request, res: Response): Promise<void> {

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import searchController from '../controllers/searchController';
-import { authenticateJWT } from '../middlewares/auth';
-import { isolateOrganization } from '../middlewares/rbac';
-import { requireTenantContext } from '../middleware/tenantContext';
+import searchController from '../controllers/searchController.js';
+import { authenticateJWT } from '../middlewares/auth.js';
+import { isolateOrganization } from '../middlewares/rbac.js';
+import { requireTenantContext } from '../middleware/tenantContext.js';
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AnchorService } from '../services/anchorService';
+import { AnchorService } from '../services/anchorService.js';
 import { Keypair } from '@stellar/stellar-sdk';
 
 export class PaymentController {

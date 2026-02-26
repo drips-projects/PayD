@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { Keypair } from '@stellar/stellar-sdk';
-import { FreezeService, FreezeAction } from '../services/freezeService';
+import { FreezeService, FreezeAction } from '../services/freezeService.js';
 
 // ---------------------------------------------------------------------------
 // Validation schemas (defined once at module scope — O(1) memory cost)

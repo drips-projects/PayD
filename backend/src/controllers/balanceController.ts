@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
-import { BalanceService } from '../services/balanceService';
+import { BalanceService } from '../services/balanceService.js';
 
 const paymentEntrySchema = z.object({
   employeeId: z.string().min(1),

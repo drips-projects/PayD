@@ -1,54 +1,22 @@
-import express from 'express';
-import path from 'path';
-import cors from 'cors';
-import helmet from 'helmet';
 import dotenv from 'dotenv';
-import passport from './config/passport';
 import { createServer } from 'http';
-import { config } from './config/env';
-import { getThrottlingConfig } from './config/env';
-import { apiVersionMiddleware } from './middlewares/apiVersionMiddleware';
-import v1Routes from './routes/v1';
-import authRoutes from './routes/authRoutes';
-import webhookRoutes from './routes/webhook.routes';
-import { initializeSocket, emitTransactionUpdate } from './services/socketService';
-import { HealthController } from './controllers/healthController';
-import { ThrottlingService } from './services/throttlingService';
+import app from './app.js';
+import logger from './utils/logger.js';
+import config from './config/index.js';
+import { initializeSocket } from './services/socketService.js';
 
 dotenv.config();
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+const server = createServer(app);
 
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
-app.use(passport.initialize());
+// Initialize Socket.IO
+initializeSocket(server);
 
-// Serve stellar.toml for SEP-0001
-app.get('/.well-known/stellar.toml', (req, res) => {
-  res.setHeader('Content-Type', 'text/plain');
-  res.sendFile(path.join(__dirname, '../.well-known/stellar.toml'));
-});
+const PORT = config.port || process.env.PORT || 4000;
 
-app.use(apiVersionMiddleware);
-
-// Routes
-app.use('/auth', authRoutes);
-app.use('/api/v1', v1Routes);
-app.use('/webhooks', webhookRoutes);
-
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-// Serve stellar.toml for SEP-0001
-app.get('/.well-known/stellar.toml', (req, res) => {
-  res.setHeader('Content-Type', 'text/plain');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.sendFile(path.join(__dirname, '../.well-known/stellar.toml'));
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(PORT, () => {
+  logger.info(`Server running on port ${PORT}`);
+  logger.info(`Environment: ${config.nodeEnv}`);
+  logger.info(`Health check: http://localhost:${PORT}/health`);
+  logger.info(`Contract registry: http://localhost:${PORT}/api/contracts`);
 });

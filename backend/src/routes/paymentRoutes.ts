@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { PaymentController } from '../controllers/paymentController';
-import { require2FA } from '../middlewares/require2fa';
-import { authenticateJWT } from '../middlewares/auth';
-import { isolateOrganization } from '../middlewares/rbac';
+import { PaymentController } from '../controllers/paymentController.js';
+import { require2FA } from '../middlewares/require2fa.js';
+import { authenticateJWT } from '../middlewares/auth.js';
+import { isolateOrganization } from '../middlewares/rbac.js';
 
 const router = Router();
 

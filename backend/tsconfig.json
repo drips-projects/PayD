@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "lib": [
-      "ES2022"
-    ],
-    "outDir": "./dist",
     "rootDir": "./src",
-    "strict": false,
+    "outDir": "./dist",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "es2022",
+    "lib": [
+      "es2022"
+    ],
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -18,11 +18,12 @@
     "sourceMap": true,
     "types": [
       "node",
-      "jest",
-      "cors",
-      "morgan"
+      "jest"
     ],
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": false,
+    "isolatedModules": false
   },
   "include": [
     "src/**/*"
@@ -31,6 +32,7 @@
     "node_modules",
     "dist",
     "src_backup",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "src/benchmarks/**/*"
   ]
 }

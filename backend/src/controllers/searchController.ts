@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import searchService, { SearchFilters } from '../services/searchService';
+import searchService, { SearchFilters } from '../services/searchService.js';
 import { z } from 'zod';
 
 const searchQuerySchema = z.object({

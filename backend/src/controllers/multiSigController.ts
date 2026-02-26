@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Keypair } from '@stellar/stellar-sdk';
-import { MultiSigService } from '../services/multiSigService';
-import logger from '../utils/logger';
+import { MultiSigService } from '../services/multiSigService.js';
+import logger from '../utils/logger.js';
 
 export class MultiSigController {
   /**

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { PayrollBonusService } from '../services/payrollBonusService';
-import logger from '../utils/logger';
+import { PayrollBonusService } from '../services/payrollBonusService.js';
+import logger from '../utils/logger.js';
 
 export class PayrollBonusController {
   static async createPayrollRun(req: Request, res: Response): Promise<void> {

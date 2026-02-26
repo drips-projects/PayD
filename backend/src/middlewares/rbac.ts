@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserRole } from '../types/auth';
+import { UserRole } from '../types/auth.js';
 import { Pool } from 'pg';
-import { config } from '../config/env';
+import { config } from '../config/env.js';
 
 const pool = new Pool({ connectionString: config.DATABASE_URL });
 

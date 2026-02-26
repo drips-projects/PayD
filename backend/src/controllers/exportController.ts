@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { ExportService } from '../services/exportService';
-import { payrollQueryService } from '../services/payroll-query.service';
-import logger from '../utils/logger';
+import { ExportService } from '../services/exportService.js';
+import { payrollQueryService } from '../services/payroll-query.service.js';
+import logger from '../utils/logger.js';
 
 export class ExportController {
   /**
