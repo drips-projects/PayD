@@ -105,7 +105,9 @@ export default function RevenueSplitDashboard() {
           setAllocations([]);
         } else {
           const contractAllocations = await fetchRevenueSplitAllocations(contractId, address);
-          setAllocations(contractAllocations.map((a, i) => ({ ...a, id: `alloc-${i}-${a.recipient}` })));
+          setAllocations(
+            contractAllocations.map((a, i) => ({ ...a, id: `alloc-${i}-${a.recipient}` }))
+          );
         }
 
         const distributionEvents = await fetchDistributionEvents(ORGANIZATION_ID, 1, 50);
@@ -127,10 +129,10 @@ export default function RevenueSplitDashboard() {
       prev.map((entry, idx) =>
         idx === index
           ? {
-            ...entry,
-            [field]: field === 'percentage' ? Number.parseFloat(value || '0') : value,
-            id: field === 'recipient' ? `alloc-${index}-${value}` : entry.id,
-          }
+              ...entry,
+              [field]: field === 'percentage' ? Number.parseFloat(value || '0') : value,
+              id: field === 'recipient' ? `alloc-${index}-${value}` : entry.id,
+            }
           : entry
       )
     );
@@ -187,14 +189,16 @@ export default function RevenueSplitDashboard() {
 
       notifySuccess('Allocations updated', `Submitted on-chain update transaction: ${txHash}`);
     } catch (saveError) {
-      const parsed = parseContractError(undefined, saveError instanceof Error ? saveError.message : 'Failed to update allocations');
+      const parsed = parseContractError(
+        undefined,
+        saveError instanceof Error ? saveError.message : 'Failed to update allocations'
+      );
       setContractError(parsed);
       notifyError('Allocation update failed', parsed.message);
     } finally {
       setIsSaving(false);
     }
   };
-
 
   return (
     <div className="flex-1 flex flex-col p-6 lg:p-12 max-w-7xl mx-auto w-full">
@@ -271,10 +275,7 @@ export default function RevenueSplitDashboard() {
 
           <div className="space-y-3">
             {allocations.map((entry, index) => (
-              <div
-                key={entry.id}
-                className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center"
-              >
+              <div key={entry.id} className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
                 <input
                   type="text"
                   value={entry.recipient}
@@ -317,12 +318,8 @@ export default function RevenueSplitDashboard() {
             </button>
           </div>
 
-          <ContractErrorPanel
-            error={contractError}
-            onClear={() => setContractError(null)}
-          />
+          <ContractErrorPanel error={contractError} onClear={() => setContractError(null)} />
         </section>
-
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">

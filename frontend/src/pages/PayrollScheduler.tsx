@@ -241,13 +241,15 @@ export default function PayrollScheduler() {
       setFormData(initialFormState);
     } catch (err) {
       console.error(err);
-      const parsed = parseContractError(undefined, err instanceof Error ? err.message : 'Broadcast failed');
+      const parsed = parseContractError(
+        undefined,
+        err instanceof Error ? err.message : 'Broadcast failed'
+      );
       setContractError(parsed);
     } finally {
       setIsBroadcasting(false);
     }
   };
-
 
   const handleRemoveClaim = (id: string) => {
     unsubscribeFromTransaction(id);
@@ -424,10 +426,7 @@ export default function PayrollScheduler() {
           </div>
 
           <div className="lg:col-span-2 flex flex-col gap-6">
-            <ContractErrorPanel
-              error={contractError}
-              onClear={() => setContractError(null)}
-            />
+            <ContractErrorPanel error={contractError} onClear={() => setContractError(null)} />
 
             <TransactionSimulationPanel
               result={simulationResult}

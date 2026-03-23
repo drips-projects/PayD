@@ -153,7 +153,6 @@ export default function CrossAssetPayment() {
       setContractError(parsed);
       notifyError('Payment failed', parsed.message);
     }
-
   };
 
   return (
@@ -269,10 +268,7 @@ export default function CrossAssetPayment() {
                 )}
               </button>
 
-              <ContractErrorPanel
-                error={contractError}
-                onClear={() => setContractError(null)}
-              />
+              <ContractErrorPanel error={contractError} onClear={() => setContractError(null)} />
             </div>
           </div>
 
