@@ -56,7 +56,7 @@ const initialFormState: PayrollFormState = {
 
 export default function PayrollScheduler() {
   const { t } = useTranslation();
-  const { notifySuccess } = useNotification();
+  const { notifySuccess, notify } = useNotification();
   const { socket, subscribeToTransaction, unsubscribeFromTransaction } = useSocket();
   const [formData, setFormData] = useState<PayrollFormState>(initialFormState);
   const [isBroadcasting, setIsBroadcasting] = useState(false);
@@ -98,8 +98,9 @@ export default function PayrollScheduler() {
     const saved = loadSavedData();
     if (saved) {
       setFormData(saved);
+      notify('Recovered unsaved payroll draft');
     }
-  }, [loadSavedData]);
+  }, [loadSavedData, notify]);
 
   const handleScheduleComplete = (config: { frequency: string; timeOfDay: string }) => {
     setActiveSchedule(config);
