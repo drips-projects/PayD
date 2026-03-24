@@ -1,3 +1,4 @@
+import { nativeToScVal, scValToNative, xdr } from '@stellar/stellar-sdk';
 import type { ContractType } from '../services/contracts.types';
 import { useSorobanContract } from './useSorobanContract';
 
@@ -59,82 +60,103 @@ function parseRevenueSplitResult(raw: unknown): RevenueSplitResult {
 export function useBulkPaymentContract(contractId: string) {
   const hook = useSorobanContract<BulkPaymentResult>(contractId);
 
-  return {
-    ...hook,
-    distribute: async (args: { recipients: string[]; amounts: string[]; asset?: string }) =>
-      hook.invoke({
-        method: 'distribute',
-        args: [args.recipients, args.amounts, args.asset ?? null],
-        parseResult: parseBulkPaymentResult,
-      }),
-    getPaymentStatus: async (paymentId: string) =>
-      hook.invoke({
-        method: 'get_payment_status',
-        args: [paymentId],
-        parseResult: (raw) => raw as { status: string; amount: string; timestamp: number },
-      }),
+  const distribute = async (args: { recipients: string[]; amounts: string[]; asset?: string }) => {
+    return hook.invoke({
+      method: 'distribute',
+      args: [
+        nativeToScVal(args.recipients),
+        nativeToScVal(args.amounts),
+        args.asset ? nativeToScVal(args.asset) : null,
+      ],
+      parseResult: parseBulkPaymentResult,
+    });
   };
+
+  const getPaymentStatus = async (paymentId: string) => {
+    return hook.invoke({
+      method: 'get_payment_status',
+      args: [paymentId],
+      parseResult: ((raw: unknown) => scValToNative(raw as xdr.ScVal)) as never,
+    });
+  };
+
+  return { ...hook, distribute, getPaymentStatus };
 }
 
 export function useVestingEscrowContract(contractId: string) {
   const hook = useSorobanContract<VestingScheduleResult>(contractId);
 
-  return {
-    ...hook,
-    createSchedule: async (args: {
-      beneficiary: string;
-      amount: string;
-      startTime: number;
-      endTime: number;
-      cliffDuration?: number;
-    }) =>
-      hook.invoke({
-        method: 'create_vesting_schedule',
-        args: [
-          args.beneficiary,
-          args.amount,
-          BigInt(args.startTime),
-          BigInt(args.endTime),
-          BigInt(args.cliffDuration ?? 0),
-        ],
-        parseResult: parseVestingScheduleResult,
-      }),
-    release: async (scheduleId: string) =>
-      hook.invoke({
-        method: 'release',
-        args: [scheduleId],
-        parseResult: parseVestingScheduleResult,
-      }),
-    getSchedule: async (scheduleId: string) =>
-      hook.invoke({
-        method: 'get_schedule',
-        args: [scheduleId],
-        parseResult: parseVestingScheduleResult,
-      }),
+  const createSchedule = async (args: {
+    beneficiary: string;
+    amount: string;
+    startTime: number;
+    endTime: number;
+    cliffDuration?: number;
+  }) => {
+    return hook.invoke({
+      method: 'create_vesting_schedule',
+      args: [
+        args.beneficiary,
+        args.amount,
+        BigInt(args.startTime),
+        BigInt(args.endTime),
+        BigInt(args.cliffDuration ?? 0),
+      ],
+      parseResult: parseVestingScheduleResult,
+    });
   };
+
+  const release = async (scheduleId: string) => {
+    return hook.invoke({
+      method: 'release',
+      args: [scheduleId],
+      parseResult: parseVestingScheduleResult,
+    });
+  };
+
+  const getSchedule = async (scheduleId: string) => {
+    return hook.invoke({
+      method: 'get_schedule',
+      args: [scheduleId],
+      parseResult: parseVestingScheduleResult,
+    });
+  };
+
+  return { ...hook, createSchedule, release, getSchedule };
 }
 
 export function useRevenueSplitContract(contractId: string) {
   const hook = useSorobanContract<RevenueSplitResult>(contractId);
 
-  return {
-    ...hook,
-    createRound: async (args: { totalPrize: string; participants: string[]; weights?: number[] }) =>
-      hook.invoke({
-        method: 'create_round',
-        args: [args.totalPrize, args.participants, args.weights ?? []],
-        parseResult: parseRevenueSplitResult,
-      }),
-    distribute: async (roundId: string) =>
-      hook.invoke({ method: 'distribute', args: [roundId], parseResult: parseRevenueSplitResult }),
-    getRoundStatus: async (roundId: string) =>
-      hook.invoke({
-        method: 'get_round_status',
-        args: [roundId],
-        parseResult: (raw) =>
-          raw as { status: string; totalDistributed: string; participantCount: number },
-      }),
+  const createRound = async (args: {
+    totalPrize: string;
+    participants: string[];
+    weights?: number[];
+  }) => {
+    return hook.invoke({
+      method: 'create_round',
+      args: [args.totalPrize, nativeToScVal(args.participants), nativeToScVal(args.weights ?? [])],
+      parseResult: parseRevenueSplitResult,
+    });
   };
+
+  const distribute = async (roundId: string) => {
+    return hook.invoke({
+      method: 'distribute',
+      args: [roundId],
+      parseResult: parseRevenueSplitResult,
+    });
+  };
+
+  const getRoundStatus = async (roundId: string) => {
+    return hook.invoke({
+      method: 'get_round_status',
+      args: [roundId],
+      parseResult: ((raw: unknown) => scValToNative(raw as xdr.ScVal)) as never,
+    });
+  };
+
+  return { ...hook, createRound, distribute, getRoundStatus };
 }
 
 export function getContractHook(contractType: ContractType) {
