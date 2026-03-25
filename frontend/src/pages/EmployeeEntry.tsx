@@ -131,8 +131,9 @@ export default function EmployeeEntry() {
     );
 
     setNotification({
-      message: `Employee ${submitData.fullName} added successfully! ${generatedWallet ? 'A wallet was created for them.' : ''
-        }`,
+      message: `Employee ${submitData.fullName} added successfully! ${
+        generatedWallet ? 'A wallet was created for them.' : ''
+      }`,
       secretKey: generatedWallet?.secretKey,
       walletAddress: submitData.walletAddress,
       employeeName: submitData.fullName,
