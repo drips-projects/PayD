@@ -267,7 +267,17 @@ export default function EmployeeEntry() {
                 <HelpLink topic="trustline" variant="icon-text" size="sm" />
               </div>
             </div>
-
+            <Select
+              id="currency"
+              fieldSize="md"
+              label="Preferred Currency"
+              value={formData.currency}
+              onChange={(e) => handleSelectChange('currency', e.target.value)}
+            >
+              <option value="USDC">USDC</option>
+              <option value="XLM">XLM</option>
+              <option value="EURC">EURC</option>
+            </Select>
             <Button type="submit" variant="primary" size="md">
               Add Employee
             </Button>
