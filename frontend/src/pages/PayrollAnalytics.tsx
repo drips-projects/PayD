@@ -185,9 +185,14 @@ export default function PayrollAnalytics() {
                     cx="50%"
                     cy="50%"
                     outerRadius={100}
-                    label={(props: Record<string, unknown>) =>
-                      `${String(props.currency ?? '')} ${String(props.value ?? 0)}%`
-                    }
+                    label={({
+                      currency,
+                      value,
+                    }: {
+                      currency: string;
+                      value: number;
+                      [key: string]: unknown;
+                    }) => `${currency} ${value}%`}
                   >
                     {data.currencyBreakdown.map((_, idx) => (
                       <Cell key={idx} fill={PIE_COLORS[idx % PIE_COLORS.length]} />
