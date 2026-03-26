@@ -103,6 +103,7 @@ function arbitraryHistoryFilters(): fc.Arbitrary<
       .option(
         fc
           .date({ min: new Date('2020-01-01'), max: new Date('2025-12-31') })
+          .filter((d) => !isNaN(d.getTime()))
           .map((d) => d.toISOString().split('T')[0]),
         { nil: '' }
       )
@@ -111,6 +112,7 @@ function arbitraryHistoryFilters(): fc.Arbitrary<
       .option(
         fc
           .date({ min: new Date('2020-01-01'), max: new Date('2025-12-31') })
+          .filter((d) => !isNaN(d.getTime()))
           .map((d) => d.toISOString().split('T')[0]),
         { nil: '' }
       )

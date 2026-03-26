@@ -155,9 +155,12 @@ export async function fetchAuditRecords(
     const data: unknown = await response.json();
     return data as AuditApiResponse;
   } catch (error) {
-    // If the request was aborted, rethrow as-is
+    // If the request was aborted, rethrow with the expected message
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error('The operation was aborted.');
+    }
     if (error instanceof Error && error.name === 'AbortError') {
-      throw error;
+      throw new Error('The operation was aborted.');
     }
 
     // Otherwise, categorize and rethrow
@@ -212,9 +215,12 @@ export async function fetchContractEvents(
     const data: unknown = await response.json();
     return data as ContractEventsApiResponse;
   } catch (error) {
-    // If the request was aborted, rethrow as-is
+    // If the request was aborted, rethrow with the expected message
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error('The operation was aborted.');
+    }
     if (error instanceof Error && error.name === 'AbortError') {
-      throw error;
+      throw new Error('The operation was aborted.');
     }
 
     // Otherwise, categorize and rethrow

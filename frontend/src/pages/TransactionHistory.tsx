@@ -141,12 +141,16 @@ export default function TransactionHistory() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1">
+              <label
+                htmlFor="search-filter"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1"
+              >
                 Search
               </label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted w-4 h-4" />
                 <input
+                  id="search-filter"
                   value={filters.search}
                   onChange={(event) => updateFilter('search', event.target.value)}
                   placeholder="Tx hash / actor..."
@@ -156,10 +160,14 @@ export default function TransactionHistory() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1">
+              <label
+                htmlFor="status-filter"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1"
+              >
                 Status
               </label>
               <select
+                id="status-filter"
                 value={filters.status}
                 onChange={(event) => updateFilter('status', event.target.value)}
                 className="w-full bg-surface/50 border border-hi rounded-xl px-4 py-2.5 text-sm outline-none focus:border-accent/50 focus:bg-accent/5 transition-all appearance-none"
@@ -172,10 +180,14 @@ export default function TransactionHistory() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1">
+              <label
+                htmlFor="employee-filter"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1"
+              >
                 Employee
               </label>
               <input
+                id="employee-filter"
                 value={filters.employee}
                 onChange={(event) => updateFilter('employee', event.target.value)}
                 placeholder="Name or wallet..."
@@ -184,10 +196,14 @@ export default function TransactionHistory() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1">
+              <label
+                htmlFor="asset-filter"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1"
+              >
                 Asset
               </label>
               <input
+                id="asset-filter"
                 value={filters.asset}
                 onChange={(event) => updateFilter('asset', event.target.value)}
                 placeholder="USDC, XLM..."
@@ -196,12 +212,16 @@ export default function TransactionHistory() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1">
+              <label
+                htmlFor="start-date-filter"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1"
+              >
                 Start Date
               </label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted w-4 h-4" />
                 <input
+                  id="start-date-filter"
                   type="date"
                   value={filters.startDate}
                   onChange={(event) => updateFilter('startDate', event.target.value)}
@@ -211,12 +231,16 @@ export default function TransactionHistory() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1">
+              <label
+                htmlFor="end-date-filter"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted ml-1"
+              >
                 End Date
               </label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted w-4 h-4" />
                 <input
+                  id="end-date-filter"
                   type="date"
                   value={filters.endDate}
                   onChange={(event) => updateFilter('endDate', event.target.value)}
@@ -253,7 +277,7 @@ export default function TransactionHistory() {
               <p className="text-lg font-bold text-text mb-1">No transactions found</p>
               <p className="text-sm">
                 {activeFilterCount > 0
-                  ? 'Try adjusting your filters or search terms.'
+                  ? 'Try adjusting your filters.'
                   : 'No transaction history available yet.'}
               </p>
             </div>
