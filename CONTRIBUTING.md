@@ -24,6 +24,15 @@ First off, thank you for considering contributing to PayD! It's people like you 
 3. Describe your changes in detail in the PR description, referencing any open issues it resolves.
 4. Ensure all CI checks pass.
 
+## Issue Templates
+
+Use the GitHub issue forms in `.github/ISSUE_TEMPLATE` when opening new issues:
+
+- `bug_report.yml` for reproducible defects
+- `feature_request.yml` for product or technical enhancements
+
+These forms are intentionally structured so every issue includes clear steps, expected behavior, and accessibility considerations where relevant.
+
 ## 🙌 Getting Added to the Contributors List
 
 We want to recognize your hard work! When you submit a Pull Request that gets approved and merged, please feel free to add yourself to the [`CONTRIBUTORS.md`](CONTRIBUTORS.md) file in your PR, or ask a maintainer to add you.
