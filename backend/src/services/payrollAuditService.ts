@@ -173,6 +173,7 @@ export class PayrollAuditService {
       userAgent?: string;
       itemType?: 'base' | 'bonus';
       description?: string;
+      payoutMetadata?: string;
     }
   ): Promise<PayrollAuditLog> {
     return this.log({
@@ -189,6 +190,7 @@ export class PayrollAuditService {
       metadata: {
         item_type: context?.itemType || 'base',
         description: context?.description,
+        payout_metadata: context?.payoutMetadata,
       },
       ipAddress: context?.ipAddress,
       userAgent: context?.userAgent,

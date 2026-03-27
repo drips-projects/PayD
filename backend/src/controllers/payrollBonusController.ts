@@ -105,7 +105,7 @@ export class PayrollBonusController {
 
   static async addBonusItem(req: Request, res: Response): Promise<void> {
     try {
-      const { payrollRunId, employeeId, amount, description } = req.body;
+      const { payrollRunId, employeeId, amount, description, metadata } = req.body;
       const organizationId = req.user?.organizationId;
 
       if (!payrollRunId || !employeeId || !amount) {
@@ -127,6 +127,7 @@ export class PayrollBonusController {
         employee_id: employeeId,
         amount,
         description,
+        metadata,
       });
 
       // Log audit entry for bonus item addition
@@ -143,6 +144,7 @@ export class PayrollBonusController {
           userAgent: req.get('user-agent'),
           itemType: 'bonus',
           description,
+          payoutMetadata: metadata,
         }
       );
 
@@ -191,6 +193,7 @@ export class PayrollBonusController {
         employee_id: item.employeeId,
         amount: item.amount,
         description: item.description,
+        metadata: item.metadata,
       }));
 
       const insertedItems = await PayrollBonusService.addBatchBonusItems(
@@ -216,6 +219,7 @@ export class PayrollBonusController {
             userAgent: req.get('user-agent'),
             itemType: 'bonus',
             description: originalItem.description,
+            payoutMetadata: originalItem.metadata,
           }
         );
       }
