@@ -96,8 +96,8 @@ const DEFAULT_SELECTED_COLUMNS: PayrollExportColumnId[] = PAYROLL_EXPORT_COLUMNS
 export default function CustomReportBuilder() {
   const { notifyError, notifySuccess, notifyApiError } = useNotification();
   const [organizationPublicKey, setOrganizationPublicKey] = useState('');
-  const [startDate, setStartDate] = useState(getDefaultStartDate());
-  const [endDate, setEndDate] = useState(getDefaultEndDate());
+  const [startDate, setStartDate] = useState(() => getDefaultStartDate());
+  const [endDate, setEndDate] = useState(() => getDefaultEndDate());
   const [selectedColumns, setSelectedColumns] =
     useState<PayrollExportColumnId[]>(DEFAULT_SELECTED_COLUMNS);
   const [format, setFormat] = useState<PayrollExportFormat>('excel');
