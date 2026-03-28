@@ -89,10 +89,11 @@ PayD utilizes Stellar's asset issuance capabilities to create organization-speci
 
 1. Checks scheduled payments at designated times
 2. Verifies employer account balance and authorization
-3. Signs and submits Stellar transactions
-4. Processes bulk payments efficiently
-5. Logs all transactions in database
-6. Sends notifications to employees
+3. Runs preflight `simulateTransaction` checks before wallet signature prompts
+4. Signs and submits Stellar transactions only after simulation passes
+5. Processes bulk payments efficiently
+6. Logs all transactions in database
+7. Sends notifications to employees
 
 ### 4️⃣ FX & Conversion System
 
@@ -116,6 +117,7 @@ Every payment includes:
 
 - **React 19** - Modern UI framework
 - **TypeScript** - Type-safe development
+
 ### Backend
 
 - **Node.js** - Runtime environment
