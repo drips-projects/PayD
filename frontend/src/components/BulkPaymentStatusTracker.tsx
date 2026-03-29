@@ -83,8 +83,11 @@ export function BulkPaymentStatusTracker({ organizationId }: BulkPaymentStatusTr
   const [isLoading, setIsLoading] = useState(false);
   const [isRetryingKey, setIsRetryingKey] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<'All' | 'Completed' | 'Pending' | 'Failed'>(
+    'All'
+  );
 
-  const { notifyError, notifySuccess } = useNotification();
+  const { notifyError, notifyPaymentSuccess, notifyApiError } = useNotification();
   const { socket } = useSocket();
   const { address, requireWallet } = useWallet();
   const { sign } = useWalletSigning();
@@ -98,11 +101,11 @@ export function BulkPaymentStatusTracker({ organizationId }: BulkPaymentStatusTr
     } catch (loadError) {
       const message = loadError instanceof Error ? loadError.message : 'Failed to load bulk runs';
       setError(message);
-      notifyError('Bulk payment load failed', message);
+      notifyApiError('Bulk payment load failed', message);
     } finally {
       setIsLoading(false);
     }
-  }, [notifyError, organizationId]);
+  }, [notifyApiError, organizationId]);
 
   useEffect(() => {
     void loadRuns();
@@ -139,10 +142,10 @@ export function BulkPaymentStatusTracker({ organizationId }: BulkPaymentStatusTr
           onChainError instanceof Error
             ? onChainError.message
             : 'Unable to load on-chain batch state';
-        notifyError('Bulk on-chain read failed', message);
+        notifyApiError('Bulk on-chain read failed', message);
       }
     },
-    [address, notifyError, onChainStates]
+    [address, notifyApiError, onChainStates]
   );
 
   useEffect(() => {
@@ -217,7 +220,7 @@ export function BulkPaymentStatusTracker({ organizationId }: BulkPaymentStatusTr
         signTransaction: sign,
       });
 
-      notifySuccess('Retry submitted', `Batch ${run.batch_id} was re-invoked. TX: ${txHash}`);
+      notifyPaymentSuccess(txHash, 'Retry submitted');
       const refreshedSummary = await fetchPayrollRunSummary(run.id);
       setSummaries((prev) => ({ ...prev, [run.id]: refreshedSummary }));
       await loadOnChainState(run, refreshedSummary);
@@ -230,39 +233,59 @@ export function BulkPaymentStatusTracker({ organizationId }: BulkPaymentStatusTr
   };
 
   const rows = useMemo(() => {
-    return runs.map((run) => {
-      const summary = summaries[run.id];
-      const onChainState = onChainStates[run.id];
-      const employeeCount = summary?.summary.total_employees ?? summary?.items.length ?? 0;
-      const txHash = findRunTxHash(summary);
-      const confirmationCount = confirmations[run.batch_id] ?? onChainState?.successCount ?? 0;
-      const hasFailedRecipients = summary?.items.some((item) => item.status === 'failed') ?? false;
+    return runs
+      .map((run) => {
+        const summary = summaries[run.id];
+        const onChainState = onChainStates[run.id];
+        const employeeCount = summary?.summary.total_employees ?? summary?.items.length ?? 0;
+        const txHash = findRunTxHash(summary);
+        const confirmationCount = confirmations[run.batch_id] ?? onChainState?.successCount ?? 0;
+        const hasFailedRecipients =
+          summary?.items.some((item) => item.status === 'failed') ?? false;
 
-      return {
-        run,
-        summary,
-        onChainState,
-        employeeCount,
-        txHash,
-        confirmationCount,
-        hasFailedRecipients,
-      };
-    });
-  }, [confirmations, onChainStates, runs, summaries]);
+        return {
+          run,
+          summary,
+          onChainState,
+          employeeCount,
+          txHash,
+          confirmationCount,
+          hasFailedRecipients,
+        };
+      })
+      .filter((row) => {
+        if (statusFilter === 'All') return true;
+        return row.run.status.toLowerCase() === statusFilter.toLowerCase();
+      });
+  }, [confirmations, onChainStates, runs, summaries, statusFilter]);
 
   return (
     <div className="card glass noise mt-8">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-bold">Bulk Payment Status Tracker</h3>
-        <button
-          type="button"
-          onClick={() => {
-            void loadRuns();
-          }}
-          className="text-xs font-semibold text-accent hover:text-accent/80"
-        >
-          Refresh
-        </button>
+        <div className="flex items-center gap-4">
+          <select
+            value={statusFilter}
+            onChange={(e) =>
+              setStatusFilter(e.target.value as 'All' | 'Completed' | 'Pending' | 'Failed')
+            }
+            className="text-xs bg-surface border border-hi rounded px-2 py-1 text-text outline-none focus:border-accent"
+          >
+            <option value="All">All Statuses</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="Failed">Failed</option>
+          </select>
+          <button
+            type="button"
+            onClick={() => {
+              void loadRuns();
+            }}
+            className="text-xs font-semibold text-accent hover:text-accent/80"
+          >
+            Refresh
+          </button>
+        </div>
       </div>
 
       {isLoading ? <p className="text-sm text-muted">Loading bulk payroll runs...</p> : null}

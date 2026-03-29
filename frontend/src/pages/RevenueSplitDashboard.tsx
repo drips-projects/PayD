@@ -68,7 +68,8 @@ export default function RevenueSplitDashboard() {
 
   const { address, connect, requireWallet } = useWallet();
   const { sign } = useWalletSigning();
-  const { notifyError, notifySuccess } = useNotification();
+  const { notifyError, notifyPaymentSuccess, notifyPaymentFailure, notifyApiError } =
+    useNotification();
 
   const preferredStablecoin = getPreferredStablecoin();
   const readSourceAddress = getReadSourceAddress(address);
@@ -145,14 +146,14 @@ export default function RevenueSplitDashboard() {
       } catch (loadError) {
         const message = loadError instanceof Error ? loadError.message : 'Failed to load dashboard';
         setError(message);
-        notifyError('Revenue split load failed', message);
+        notifyApiError('Revenue split load failed', message);
       } finally {
         setIsLoading(false);
       }
     };
 
     void loadData();
-  }, [notifyError, orgPublicKey, readSourceAddress]);
+  }, [notifyApiError, orgPublicKey, readSourceAddress]);
 
   const setAllocationField = (index: number, field: 'recipient' | 'percentage', value: string) => {
     setAllocations((prev) =>
@@ -217,14 +218,14 @@ export default function RevenueSplitDashboard() {
         signTransaction: sign,
       });
 
-      notifySuccess('Allocations updated', `Simulation passed and update was submitted: ${txHash}`);
+      notifyPaymentSuccess(txHash, 'Allocations updated');
     } catch (saveError) {
       const parsed = parseContractError(
         undefined,
         saveError instanceof Error ? saveError.message : 'Failed to update allocations'
       );
       setContractError(parsed);
-      notifyError('Allocation update failed', parsed.message);
+      notifyPaymentFailure(parsed.message);
     } finally {
       setIsSaving(false);
     }
@@ -292,8 +293,8 @@ export default function RevenueSplitDashboard() {
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: number | string | undefined) =>
-                        `${Number(value ?? 0).toFixed(2)}%`
+                      formatter={(value: number | string | (number | string)[] | undefined) =>
+                        `${Number(Array.isArray(value) ? value[0] : (value ?? 0)).toFixed(2)}%`
                       }
                       contentStyle={{
                         background: '#0f172a',
