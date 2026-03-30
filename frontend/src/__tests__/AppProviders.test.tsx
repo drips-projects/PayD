@@ -1,28 +1,28 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { QueryClient } from '@tanstack/react-query';
-import { AppProviders } from '../../providers/AppProviders';
+import { AppProviders } from '../providers/AppProviders';
 
 // Minimal mocks so no real network or browser APIs are exercised
-vi.mock('../../providers/WalletProvider', () => ({
+vi.mock('../providers/WalletProvider', () => ({
   WalletProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock('../../providers/AuthProvider', () => ({
+vi.mock('../providers/AuthProvider', () => ({
   AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock('../../providers/NotificationProvider', () => ({
+vi.mock('../providers/NotificationProvider', () => ({
   NotificationProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock('../../providers/SocketProvider', () => ({
+vi.mock('../providers/SocketProvider', () => ({
   SocketProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock('../../providers/ThemeProvider', () => ({
+vi.mock('../providers/ThemeProvider', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock('../../components/GlobalErrorBoundary', () => ({
+vi.mock('../components/GlobalErrorBoundary', () => ({
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
-vi.mock('../../components/PageErrorFallback', () => ({
+vi.mock('../components/PageErrorFallback', () => ({
   default: () => <div>Error</div>,
 }));
 
