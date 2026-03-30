@@ -353,14 +353,15 @@ git commit -m "test(backend): add integration tests for payroll service"
 ### Creating the PR
 
 1. **Open a Pull Request** on GitHub against the `main` branch
-2. **Use the PR template** (automatically provided by GitHub)
-3. **Fill in all sections**:
-   - **Description**: What does this PR do?
+2. **Use the PR template** from [`.github/pull_request_template.md`](.github/pull_request_template.md) (automatically provided by GitHub)
+3. **Fill in all sections** with tests, docs, and accessibility considerations:
+   - **Summary**: What does this PR do?
+   - **What Changed**: Detailed description of changes
    - **Related Issues**: Link to issue(s) it resolves (e.g., `Closes #123`)
-   - **Type of Change**: Feature, bug fix, documentation, etc.
    - **Testing**: How was this tested?
-   - **Accessibility**: Any accessibility considerations?
-   - **Checklist**: Verify all items are complete
+   - **Documentation**: What documentation was updated?
+   - **Accessibility / Responsiveness**: Any accessibility considerations?
+   - **Checklist**: Verify all items are complete (tests, docs, accessibility)
 
 ### PR Review Process
 

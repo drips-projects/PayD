@@ -61,6 +61,28 @@ PayD utilizes Stellar's asset issuance capabilities to create organization-speci
 
 ---
 
+## 🚀 Quick Start
+
+1. **Clone and enter the repo**
+   ```bash
+   git clone https://github.com/Gildado/PayD.git
+   cd PayD
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create your local environment and start the app**
+   ```bash
+   cd backend
+   cp .env.example .env
+   docker-compose up
+   ```
+
+For detailed setup instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## 📚 Contribution Reward (Bounty) Program
 
 We value community contributions! High‑priority issues may carry a bounty to recognize and reward contributors.
