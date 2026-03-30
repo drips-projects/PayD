@@ -51,7 +51,7 @@ interface AnalyticsData {
 }
 
 // recharts v3 Formatter receives ValueType | undefined
-type RechartsValue = number | string | (number | string)[] | undefined;
+type RechartsValue = number | string | readonly (number | string)[] | undefined;
 
 // ── Mock fetch (replace with real API call when endpoint is available) ────────
 
@@ -207,46 +207,44 @@ export default function PayrollAnalytics() {
           </motion.div>
 
           {/* Pie chart — currency breakdown */}
-          <motion.div variants={cardVariants}>
-            <Card>
-              <div className="p-6">
-                <h2 className="text-lg font-semibold mb-4">Cost Breakdown by Currency</h2>
-                <ResponsiveContainer width="100%" height={280}>
-                  <PieChart>
-                    <Pie
-                      data={data.currencyBreakdown}
-                      dataKey="value"
-                      nameKey="currency"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      label={(props: PieLabelRenderProps) => {
-                        const d = props as PieLabelRenderProps & {
-                          currency?: string;
-                          value?: number;
-                        };
-                        return `${d.currency ?? ''} ${d.value ?? 0}%`;
-                      }}
-                    >
-                      {data.currencyBreakdown.map((item) => (
-                        <Cell
-                          key={item.currency}
-                          fill={PIE_COLORS[data.currencyBreakdown.indexOf(item) % PIE_COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(v: RechartsValue) => [
-                        `${String(Array.isArray(v) ? v[0] : (v ?? 0))}%`,
-                        'Share',
-                      ]}
-                    />
-                    <SafeLegend />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </Card>
-          </motion.div>
+          <Card>
+            <div className="p-6">
+              <h2 className="text-lg font-semibold mb-4">Cost Breakdown by Currency</h2>
+              <ResponsiveContainer width="100%" height={280}>
+                <PieChart>
+                  <Pie
+                    data={data.currencyBreakdown}
+                    dataKey="value"
+                    nameKey="currency"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    label={(props: PieLabelRenderProps) => {
+                      const d = props as PieLabelRenderProps & {
+                        currency?: string;
+                        value?: number;
+                      };
+                      return `${d.currency ?? ''} ${d.value ?? 0}%`;
+                    }}
+                  >
+                    {data.currencyBreakdown.map((item) => (
+                      <Cell
+                        key={item.currency}
+                        fill={PIE_COLORS[data.currencyBreakdown.indexOf(item) % PIE_COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(v: number | string | readonly (number | string)[] | undefined) => [
+                      `${String(Array.isArray(v) ? v[0] : (v ?? 0))}%`,
+                      'Share',
+                    ]}
+                  />
+                  <SafeLegend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
 
           {/* Bar chart — success/failure rate */}
           <motion.div variants={cardVariants} className="lg:col-span-2">
