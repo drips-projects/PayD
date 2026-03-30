@@ -55,25 +55,27 @@ export const FormField: React.FC<FormFieldProps> = ({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label htmlFor={id} className="text-sm font-medium text-text">
         {label}
-        {required && <span className="text-danger ml-1" aria-label="required">*</span>}
+        {required && (
+          <span className="text-danger ml-1" aria-label="required">
+            *
+          </span>
+        )}
       </label>
 
-      <div
-        className={`relative transition-colors ${
-          hasError ? 'border-danger' : 'border-border'
-        }`}
-      >
+      <div className={`relative transition-colors ${hasError ? 'border-danger' : 'border-border'}`}>
         {React.isValidElement(children)
           ? React.cloneElement(children, {
               id,
               'aria-invalid': hasError,
               'aria-describedby': hasError || helpText ? descriptionId : undefined,
               className: [
-                typeof (children.props as Record<string, unknown>).className === 'string' 
-                  ? (children.props as Record<string, unknown>).className 
+                typeof (children.props as Record<string, unknown>).className === 'string'
+                  ? (children.props as Record<string, unknown>).className
                   : '',
                 hasError ? 'border-danger focus:border-danger focus:ring-danger/20' : '',
-              ].filter(Boolean).join(' '),
+              ]
+                .filter(Boolean)
+                .join(' '),
             } as React.HTMLAttributes<HTMLElement>)
           : children}
       </div>
@@ -81,11 +83,7 @@ export const FormField: React.FC<FormFieldProps> = ({
       {(error || helpText) && (
         <p
           id={descriptionId}
-          className={`text-xs ${
-            hasError
-              ? 'text-danger font-medium'
-              : 'text-muted'
-          }`}
+          className={`text-xs ${hasError ? 'text-danger font-medium' : 'text-muted'}`}
         >
           {error || helpText}
         </p>

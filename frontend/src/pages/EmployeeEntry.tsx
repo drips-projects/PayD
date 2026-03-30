@@ -268,12 +268,7 @@ export default function EmployeeEntry() {
             onSubmit={handleSubmit}
             style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
           >
-            <FormField
-              id="fullName"
-              label="Full Name"
-              required
-              error={formErrors.fullName}
-            >
+            <FormField id="fullName" label="Full Name" required error={formErrors.fullName}>
               <InputComponent
                 fieldSize="md"
                 name="fullName"
