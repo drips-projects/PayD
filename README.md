@@ -1,7 +1,8 @@
 # PayD: Stellar-Based Cross-Border Payroll Platform!
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Stellar](https://img.shields.io/badge/Powered%20by-Stellar-7B68EE)](https://www.stellar.org/)
+[![Build Status](https://github.com/Gildado/PayD/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/Gildado/PayD/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Stellar Compatible](https://img.shields.io/badge/Stellar-Compatible-08B5E5?style=flat-square&logo=stellar)](https://www.stellar.org/)
 
 ## License
 
